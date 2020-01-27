@@ -49,7 +49,7 @@ router.get('/full/:id', function(req, res) {
 router.post('/check', function(req, res) {
   let pass = req.body.passcode;
   console.log(pass);
-  if (pass === "open sesame") {
+  if (pass === "Shelly") {
     req.session.access = true;
     res.json({success: true});
   } else {
