@@ -1,0 +1,57 @@
+<div id="main-thumbnails">
+  <div class="row justify-content-center">
+    <h2>{{title}}</h2>
+  </div>
+
+  <div class="row justify-content-center">
+    {{#each image_thumbnail}}
+      <div class="thumbnail-container" onclick="go_to('{{this}}')">
+        <img class="thumbnail" src="/thumbnail/{{this}}" alt="thumbnail {{this}}">
+      </div>
+    {{/each}}
+
+    <div class="row justify-content-center">
+      <div class="col">
+        {{bio}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center" id="main-carousel" style="display: none;">
+  <div class="carousel slide col-md-9" id="carousel-3" data-ride="carousel" data-touch="true" data-interval="false">
+    <div class="carousel-inner">
+      {{#each image_thumbnail}}
+        <div class="carousel-item" id="{{this}}"><img class="carousel-image" src="/full/{{this}}" alt="image {{this}}">
+        </div>
+      {{/each}}
+    </div>
+    <a class="carousel-control-prev" href="#carousel-3" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-3" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <button type="button" class="close col-md-1 float-right" aria-label="Close" onclick="close_carousel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<script>
+  function go_to(id) {
+    $('.active').removeClass('active');
+    $("#" + id).addClass('active');
+    $('#main-carousel').show();
+    $('#main-thumbnails').hide('slow');
+    $('nav').hide();
+  }
+
+  function close_carousel() {
+    $('#main-carousel').hide();
+    $('#main-thumbnails').show();
+    $('nav').show();
+  }
+</script>
