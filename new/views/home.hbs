@@ -1,15 +1,18 @@
 {{#each day}}
-  <div class="row">
-    {{this.name}}
-  </div>
+  <div class="day-sets container">
+    <div class="row day-title">
+      {{this.name}}
+    </div>
 
-  <div class="row">
-    {{#each set}}
-      <div class="col">
-        <a href="/model/{{this.model_id}}">
-          <img class="thumbnail" src="/thumbnail/{{this.thumbnail}}">
-        </a>
-      </div>
-    {{/each}}
+    <div class="row">
+      {{#each set}}
+        <div class="home-thumbnails">
+          <a href="/model/{{this.model_id}}">
+            <img class="home-thumbnail-image" src="/thumbnail/{{this.thumbnail}}" alt="/thumbnail/{{this.thumbnail}}">
+          </a>
+          <div class="thumbnail-names"> {{this.name}} </div>
+        </div>
+      {{/each}}
+    </div>
   </div>
 {{/each}}

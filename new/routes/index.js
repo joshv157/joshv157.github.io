@@ -5,6 +5,8 @@ const __dir = 'public';
 const ImageSet = require('../models/image_set');
 const Thumbnail = require('../models/thumbnail');
 const one_day = 1000 * 60 * 60 * 24;
+const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /* GET home page. */
 router.get('/', function (req, res) {
 	res.sendFile('index', {root: __dir});
@@ -17,13 +19,14 @@ router.get('/home', function (req, res) {
 	query.sort({upload_date: 'ascending'});
 	query.exec(function (err, result) {
 		let date_iter = result[0].upload_date;
-		let day_list = [{name: date_iter.toLocaleString(), set: []}];
+		let day_list = [{name: `${shortMonths[date_iter.getMonth()]} ${date_iter.getDate()}`, set: []}];
 		result.forEach(function (r) {
-			if (!((r.upload_date - date_iter) / one_day < 1)) {
+			if (r.upload_date.getDate() - date_iter.getDate() >= 1) {
 				date_iter = r.upload_date;
-				day_list.push({name: date_iter.toLocaleString(), set: []});
+
+				day_list.push({name: `${shortMonths[date_iter.getMonth()]} ${date_iter.getDate()}`, set: []});
 			}
-			day_list[day_list.length - 1]["set"].push({model_id: r._id, thumbnail: r.main_thumbnail});
+			day_list[day_list.length - 1]["set"].push({model_id: r._id, thumbnail: r.main_thumbnail, name: r.title});
 		});
 		res.render('home', {day: day_list});
 	});
@@ -71,8 +74,8 @@ router.post('/check', function (req, res) {
 	}
 });
 
-router.get(/(javascript)|(stylesheets)|(resources)/, function (req, res) {
-	let i = req.path.search(/(javascript)|(stylesheets)|(resources)/);
+router.get(/(javascript)|(stylesheets)|(images)|(resources)/, function (req, res) {
+	let i = req.path.search(/(javascript)|(images)|(stylesheets)|(resources)/);
 	res.sendFile(req.path.substr(i), {root: __dir});
 });
 
